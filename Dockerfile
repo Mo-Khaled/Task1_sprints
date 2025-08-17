@@ -1,13 +1,14 @@
-FROM node:18-alpine AS build
+FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+# Add build dependencies
+RUN apk add --no-cache python3 make g++
 
-RUN npm install
+COPY package*.json ./
+RUN npm install --production
 
 COPY . .
 
 EXPOSE 3000
-
 CMD ["npm", "start"]
